@@ -6,7 +6,7 @@ node('docker') {
         DOCKERHUB_CREDS = credentials('dockerHub')
         sh "docker build -t jackithub/testjob01:${BUILD_NUMBER} -f Dockerfile ."
     stage 'Push image'
-        withDockerRegistry([credentialsId: $DOCKERHUB_CREDS, url: ""])
+        withDockerRegistry([credentialsId: 'dockerHub', url: ""])
             sh 'docker push jackithub/testjob01:${BUILD_NUMBER}'
 
         
