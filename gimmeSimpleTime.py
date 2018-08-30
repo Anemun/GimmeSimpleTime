@@ -6,7 +6,7 @@ from datetime import datetime
 TELEGRAM_BOT_TOKEN = argv[1]
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
-version = "1.0"
+version = "0.3"
 timeFormat = '%Y-%m-%d %H:%M:%S'
 
 @bot.message_handler(commands=["time"])
