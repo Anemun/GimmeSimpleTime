@@ -10,9 +10,9 @@ node('docker') {
     //     }
     stage 'Deploy' 
         sshagent(credentials: ['arubaSSHroot']) {
-            sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 uptime"
+            //sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 uptime"
             //sh "ssh -v root@80.211.30.61"
-            //sh "docker run jackithub/testjob01:${BUILD_NUMBER}"
+            sh "docker run jackithub/testjob01:${BUILD_NUMBER}"
         }
         // docker.withServer('tcp://80.211.30.61:4243') {
         //     docker.image('jackithub/testjob01:${BUILD_NUMBER}').withRun('-p 3306:3306') {
