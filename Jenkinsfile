@@ -3,9 +3,14 @@ node('docker') {
     stage 'Checkout'
         checkout scm
     stage 'Testing'
+        withCredentials() {
+            [usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]
+        }
         DOCKER_CREDS = credentials('dockerHub')
-        DOCKER_LOGIN = "${env.DOCKER_CREDS_USR}"
-        sh "echo ${env.DOCKER_CREDS}"
+        def DOCKER_LOGIN = "${env.DOCKER_CREDS_USR}"
+        sh "echo 1 $DOCKER_LOGIN"
+        sh "echo 2 ${DOCKER_LOGIN}"
+        sh "echo 3 $USERNAME $PASSWORD"
     // stage 'Build image'
     //     sh "docker build -t jackithub/testjob01:${BUILD_NUMBER} -f Dockerfile ."
     // stage 'Push image'
