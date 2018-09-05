@@ -9,7 +9,7 @@ node('docker') {
             sh 'docker push jackithub/testjob01:${BUILD_NUMBER}'
         }
     stage 'Deploy' 
-        sshagent(credentials : ['6025612b-7b20-43aa-b93c-3f0556761e00']) {
+        sshagent(credentials : ['arubaSSHroot']) {
             sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 uptime"
             sh "ssh -v root@80.211.30.61"
             sh "docker run jackithub/testjob01:${BUILD_NUMBER}"
