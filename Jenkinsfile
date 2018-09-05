@@ -15,7 +15,7 @@ node('docker') {
         sshagent(credentials: ['arubaSSHroot']) {            
             //sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 uptime"
             //sh "ssh -v root@80.211.30.61"
-            sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker login -u $DOCKER_CRED_USR -p $DOCKER_CRED_PSW"
+            sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker login -u ${DOCKER_CRED_USR} -p ${DOCKER_CRED_PSW}"
             sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker run jackithub/testjob01:${BUILD_NUMBER}"
         }
         // docker.withServer('tcp://80.211.30.61:4243') {
