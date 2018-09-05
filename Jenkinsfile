@@ -5,7 +5,7 @@ node('docker') {
     stage 'Testing'
         DOCKER_CREDS = credentials('dockerHub')
         DOCKER_LOGIN = "${env.DOCKER_CREDS_USR}"
-        sh "echo ${DOCKER_LOGIN}"
+        sh "echo $DOCKER_LOGIN"
     // stage 'Build image'
     //     sh "docker build -t jackithub/testjob01:${BUILD_NUMBER} -f Dockerfile ."
     // stage 'Push image'
