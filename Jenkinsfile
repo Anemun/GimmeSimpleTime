@@ -4,8 +4,12 @@ pipeline {
         stage ('Checkout') {
             steps {
                 checkout scm
-                sh 'echo test directive pipeline'
             }        
+        }
+        stage ('Build image'){
+            steps {
+                sh "docker build -t jackithub/testjob01:${BUILD_NUMBER} -f Dockerfile ."
+            }
         }
     }
 }
