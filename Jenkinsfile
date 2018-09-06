@@ -2,9 +2,11 @@ pipeline {
     agent { label 'docker'}
     stages {
         stage ('Checkout') {
-            checkout scm
-            sh 'echo test directive pipeline'
-        }        
+            steps {
+                checkout scm
+                sh 'echo test directive pipeline'
+            }        
+        }
     }
 }
 
