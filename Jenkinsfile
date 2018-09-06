@@ -1,11 +1,6 @@
 pipeline {
     agent { label 'docker'}
-    stages {
-        // stage ('Checkout') {
-        //     steps {
-        //         checkout scm
-        //     }        
-        // }
+    stages {        
         stage ('Build image'){
             steps {
                 sh "docker build -t jackithub/testjob01:${BUILD_NUMBER} -f Dockerfile ."
@@ -15,7 +10,31 @@ pipeline {
             steps {
                 withDockerRegistry([credentialsId: 'dockerHub', url: ""]) {
                 sh "docker push jackithub/testjob01:${BUILD_NUMBER}"
+                }   
             }
+        }
+        stage ('Deploy image to remote server') {
+            stages {
+                stage ('Stop current container') {
+                    steps {
+                        sshagent(credentials: ['arubaSSHroot']) {
+                            try {
+                                sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker stop gimmeSimpleTimeBot"
+                            } catch err {
+                                echo err
+                            }
+                        }
+                    }
+                }
+                stage ('Run new container') {
+                    steps {
+                        withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'), 
+                                string(credentialsId: 'testTelebotToken', variable: 'TOKEN')]) {
+                            sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker login -u $USERNAME -p $PASSWORD"
+                            sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker run -d --name gimmeSimpleTimeBot jackithub/testjob01:${BUILD_NUMBER} $TOKEN"
+                        }
+                    }
+                }
             }
         }
     }
