@@ -20,9 +20,10 @@ pipeline {
                         sshagent(credentials: ['arubaSSHroot']) {
                             script {
                                 try {
-                                    sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker stop gimmeSimpleTimeBot"
-                                    sleep 5
-                                    sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker rm gimmeSimpleTimeBot"                                     
+                                    sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker stop gimmeSimpleTimeBot || true && ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker rm gimmeSimpleTimeBot || true"
+                                    // sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker stop gimmeSimpleTimeBot"
+                                    // sleep 5
+                                    // sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker rm gimmeSimpleTimeBot"                                     
                                 } catch (err) {
                                     echo err
                                 }
