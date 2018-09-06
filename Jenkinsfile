@@ -10,12 +10,12 @@ node('docker') {
     stage 'Deploy'         
         sshagent(credentials: ['arubaSSHroot']) {            
             
-            withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'), string(credentialsId: 'testTelebotToken', variable: 'TOKEN')]) {
                 sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker login -u $USERNAME -p $PASSWORD"
-                sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker run jackithub/testjob01:${BUILD_NUMBER}"
+                sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker run jackithub/testjob01:${BUILD_NUMBER} $TOKEN"
             }
-        }
-           
+
+        }           
 }
 
 
