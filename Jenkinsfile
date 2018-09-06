@@ -18,11 +18,10 @@ pipeline {
                 stage ('Stop current container') {
                     steps {
                         sshagent(credentials: ['arubaSSHroot']) {
-                            try {
-                                sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker stop gimmeSimpleTimeBot"
-                            } catch err {
-                                echo err
+                            catchError{
+                                sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker stop gimmeSimpleTimeBot"                            
                             }
+                            echo currentBuild.result
                         }
                     }
                 }
