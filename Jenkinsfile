@@ -1,14 +1,21 @@
 pipeline {
     agent { label 'docker'}
     stages {
-        stage ('Checkout') {
-            steps {
-                checkout scm
-            }        
-        }
+        // stage ('Checkout') {
+        //     steps {
+        //         checkout scm
+        //     }        
+        // }
         stage ('Build image'){
             steps {
                 sh "docker build -t jackithub/testjob01:${BUILD_NUMBER} -f Dockerfile ."
+            }
+        }
+        stage ('Push image') {
+            steps {
+                withDockerRegistry([credentialsId: 'dockerHub', url: ""]) {
+                sh "docker push jackithub/testjob01:${BUILD_NUMBER}"
+            }
             }
         }
     }
