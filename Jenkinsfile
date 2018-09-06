@@ -21,15 +21,12 @@ pipeline {
                             script {
                                 try {
                                     sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker stop gimmeSimpleTimeBot"
-                                    sleep 10 
+                                    sleep 5
+                                    sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker rm gimmeSimpleTimeBot"                                     
                                 } catch (err) {
                                     echo err
                                 }
                             }
-                            // catchError{
-                            //     sh "ssh -o StrictHostKeyChecking=no root@80.211.30.61 docker stop gimmeSimpleTimeBot"                            
-                            // }
-                            // echo currentBuild.result
                         }
                     }
                 }
