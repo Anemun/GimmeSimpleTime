@@ -4,7 +4,7 @@ pipeline {
         DOCKER_IMAGE = "jackithub/testjob01:${BUILD_NUMBER}"
         CONTAINER_NAME = "${params.containerName}"        
     }
-    stages {        
+    stages {         
         stage ('1. Build image'){
             steps {
                 sh "docker build -t $DOCKER_IMAGE -f Dockerfile ."
